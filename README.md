@@ -7,5 +7,8 @@ Food App
 #Initial Commands
 npm init 
 
+#install Dependencies
+npm install
+
 #Run Project
 npm index.js
