@@ -1,14 +1,15 @@
 # NodeJS-food_app
+
 Restaurant App
 
 #Create a Project
 Food App
 
 #Initial Commands
-npm init 
+npm init
 
 #install Dependencies
 npm install
 
 #Run Project
-npm index.js
+npm run server
