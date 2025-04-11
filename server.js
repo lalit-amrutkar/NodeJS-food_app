@@ -22,8 +22,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 //route
-app.use("/api/v1", require("./routes/testRouter"));
-app.use("/api/v1", require("./routes/authRouter"));
+app.use("/api/v1/auth", require("./routes/testRouter"));
+app.use("/api/v1/auth", require("./routes/authRouter"));
+app.use("/api/v1/user", require("./routes/userRouter"));
 
 
 app.get('/', (req, res) => {

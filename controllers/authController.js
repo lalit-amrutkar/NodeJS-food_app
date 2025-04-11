@@ -1,4 +1,6 @@
 const userModels = require("../models/userModels");
+const bcrypt = require("bcryptjs");
+const JWT = require("jsonwebtoken")
 
 const registerController = async (req, res) => {
     try {
@@ -19,8 +21,13 @@ const registerController = async (req, res) => {
             })
         }
 
+        // Hashing and encrypt a password credential
+        var salt = await bcrypt.genSaltSync(10);
+        const hashedPassword = await bcrypt.hashSync(password, salt);
+
+
         // create a new user
-        const user = await userModels.create({ username, email, password, address, phone })
+        const user = await userModels.create({ username, email, password: hashedPassword, address, phone })
         return res.status(201).send({
             success: true,
             message: "Successfully Registered, Please login with your credential!",
@@ -48,18 +55,30 @@ const loginController = async (req, res) => {
         }
 
         const user = await userModels.findOne({ email });
-        if (user) {
-            return res.status(200).send({
-                status: true,
-                message: "Login Successfully",
-                user
+        if (!user) {
+            return res.status(500).send({
+                success: false,
+                message: "User not found, please sign up!!!"
+            });
+        }
+        // check and compare password is correct or not
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(500).send({
+                success: false,
+                message: "Invalid Credentials"
             })
         }
+        // create token
+        const token = JWT.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' })
+        user.password = undefined; // Remove password in the user response
+        return res.status(200).send({
+            status: true,
+            message: "Login Successfully",
+            token: token,
+            user
+        });
 
-        return res.status(500).send({
-            success: false,
-            message: "User not found, please sign up!!!"
-        })
 
     } catch (error) {
         return res.status(500).send({
