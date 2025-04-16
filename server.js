@@ -8,6 +8,9 @@ const colors = require("colors");
 const cors = require("cors");
 const morgan = require("morgan");
 const connectDB = require("./config/db");
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./docs/swagger');
+
 
 
 // DB Connection
@@ -16,10 +19,12 @@ connectDB();
 //Rest object
 const app = express();
 
+
 //Middleware
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //route
 app.use("/api/v1/auth", require("./routes/testRouter"));
@@ -27,11 +32,23 @@ app.use("/api/v1/auth", require("./routes/authRouter"));
 app.use("/api/v1/user", require("./routes/userRouter"));
 
 
-app.get('/', (req, res) => {
-    return res.status(200).send("<h1>Welcome to food Server</h1>")
-});
 
+// app.use("/api/v1/category", require("./routes/categoryRouter"));
+// app.use("/api/v1/product", require("./routes/productRouter"));   
+// app.use("/api/v1/coupon", require("./routes/couponRouter"));
+// app.use("/api/v1/cart", require("./routes/cartRouter")); 
+// app.use("/api/v1/order", require("./routes/orderRouter"));
+// app.use("/api/v1/brand", require("./routes/brandRouter"));   
+// app.use("/api/v1/blog", require("./routes/blogRouter"));
+// app.use("/api/v1/faq", require("./routes/faqRouter"));
+
+// app.use("/api/v1/contact", require("./routes/contactRouter"));
+// app.use("/api/v1/notification", require("./routes/notificationRouter"));
+// app.use("/api/v1/setting", require("./routes/settingRouter"));
+// app.use("/api/v1/offer", require("./routes/offerRouter"));
 console.log(process.env.PORT)
+console.log(process.env.MONGO_URL)
+console.log(process.env.JWT_SECRET)
 
 // Port
 // const PORT = process.env.PORT || 5000;
@@ -44,6 +61,9 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
+
+
+// Listen
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`✅ Server running at http://localhost:${PORT}`);
 });
