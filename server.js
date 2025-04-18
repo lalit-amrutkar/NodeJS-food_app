@@ -30,25 +30,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/v1/auth", require("./routes/testRouter"));
 app.use("/api/v1/auth", require("./routes/authRouter"));
 app.use("/api/v1/user", require("./routes/userRouter"));
-
-
+app.use("/api/v1/restaurant", require("./routes/restaurantRouter"));
 
 // app.use("/api/v1/category", require("./routes/categoryRouter"));
 // app.use("/api/v1/product", require("./routes/productRouter"));   
 // app.use("/api/v1/coupon", require("./routes/couponRouter"));
 // app.use("/api/v1/cart", require("./routes/cartRouter")); 
 // app.use("/api/v1/order", require("./routes/orderRouter"));
-// app.use("/api/v1/brand", require("./routes/brandRouter"));   
-// app.use("/api/v1/blog", require("./routes/blogRouter"));
-// app.use("/api/v1/faq", require("./routes/faqRouter"));
-
-// app.use("/api/v1/contact", require("./routes/contactRouter"));
-// app.use("/api/v1/notification", require("./routes/notificationRouter"));
-// app.use("/api/v1/setting", require("./routes/settingRouter"));
-// app.use("/api/v1/offer", require("./routes/offerRouter"));
-console.log(process.env.PORT)
-console.log(process.env.MONGO_URL)
-console.log(process.env.JWT_SECRET)
 
 // Port
 // const PORT = process.env.PORT || 5000;

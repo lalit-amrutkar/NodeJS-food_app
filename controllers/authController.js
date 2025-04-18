@@ -102,8 +102,9 @@ const forgotPasswordController = async (req, res) => {
         // Creating a temporary randown token for short duration
         const token = crypto.randomBytes(32).toString('hex');
         user.resetToken = token;
-        user.resetTokenExpiry = Date.now() + 360000; // 1hour reset token expiry
-
+        user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
+        await user.save();
+        console.log(user)
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -141,14 +142,12 @@ const forgotPasswordController = async (req, res) => {
 // Reset Password
 const resetPasswordController = async (req, res) => {
     try {
-        const { token } = req.param;
-        const { password } = req.body;
-        console.log(token)
+        const token = req.params.token;
+        const password = req.body.password;
         const user = await userModels.findOne({
             resetToken: token,
-            resetTokenExpiry: { $gt: Date.now() }
         });
-        console.log(user)
+        console.log("Test", user)
         if (!user) return res.status(400).send({ success: false, message: "Invalid or token expired" });
 
         //Incrypt token using hash
