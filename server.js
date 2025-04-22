@@ -31,8 +31,7 @@ app.use("/api/v1/auth", require("./routes/testRouter"));
 app.use("/api/v1/auth", require("./routes/authRouter"));
 app.use("/api/v1/user", require("./routes/userRouter"));
 app.use("/api/v1/restaurant", require("./routes/restaurantRouter"));
-
-// app.use("/api/v1/category", require("./routes/categoryRouter"));
+app.use("/api/v1/category", require("./routes/categoryRouter"));
 // app.use("/api/v1/product", require("./routes/productRouter"));   
 // app.use("/api/v1/coupon", require("./routes/couponRouter"));
 // app.use("/api/v1/cart", require("./routes/cartRouter")); 
